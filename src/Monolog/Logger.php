@@ -325,7 +325,7 @@ class Logger implements LoggerInterface
 
         $prefix = null;
 
-        if(is_null($this->getPrefix())){
+        if(!is_null($this->getPrefix())){
             $prefix = $this->getPrefix()." - ";
         }
 
