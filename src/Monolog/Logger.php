@@ -134,6 +134,11 @@ class Logger implements LoggerInterface
     protected $microsecondTimestamps = true;
 
     /**
+     * @var string
+     */
+    protected $prefix = null;
+
+    /**
      * @param string             $name       The logging channel
      * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
      * @param callable[]         $processors Optional array of processors
@@ -318,8 +323,14 @@ class Logger implements LoggerInterface
         }
         $ts->setTimezone(static::$timezone);
 
+        $prefix = null;
+
+        if(is_null($this->getPrefix())){
+            $prefix = $this->getPrefix()." - ";
+        }
+
         $record = array(
-            'message' => (string) $message,
+            'message' => (string) $prefix.$message,
             'context' => $context,
             'level' => $level,
             'level_name' => $levelName,
@@ -696,4 +707,22 @@ class Logger implements LoggerInterface
     {
         self::$timezone = $tz;
     }
+
+    /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * @param string $prefix
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+
 }
